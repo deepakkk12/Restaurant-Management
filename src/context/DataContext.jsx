@@ -19,7 +19,7 @@ export const DataProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const { apiCall, isAuthenticated, authChecked, token } = useAuth();
+  const { apiCall, isAuthenticated, authChecked, token, role } = useAuth();
 
   // Load data from localStorage on mount
   useEffect(() => {

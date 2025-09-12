@@ -48,14 +48,29 @@ const MenuView = () => {
       if (result.success) {
         setMenuItems(result.data);
         console.log('✅ Menu items loaded:', result.data.length);
+        // Store menu items for customers only
+        localStorage.setItem(`customerMenu_${id}`, JSON.stringify(result.data));
       }
     } catch (error) {
       console.error('Failed to load menu:', error);
-      // Don't show error notification for network issues
-      if (!error.message.includes('fetch') && !error.message.includes('Network')) {
-        addNotification('Failed to load menu', 'error');
+      // Try to load from localStorage as fallback
+      const storedMenu = localStorage.getItem(`customerMenu_${id}`);
+      if (storedMenu) {
+        try {
+          const parsedMenu = JSON.parse(storedMenu);
+          setMenuItems(parsedMenu);
+          console.log('📦 Menu items restored from localStorage');
+        } catch (parseError) {
+          console.error('Error parsing stored menu:', parseError);
+          setMenuItems([]);
+        }
+      } else {
+        // Don't show error notification for network issues
+        if (!error.message.includes('fetch') && !error.message.includes('Network')) {
+          addNotification('Failed to load menu', 'error');
+        }
+        setMenuItems([]);
       }
-      setMenuItems([]);
     } finally {
       setIsLoadingMenu(false);
     }

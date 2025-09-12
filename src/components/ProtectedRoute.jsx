@@ -28,6 +28,14 @@ const ProtectedRoute = ({ children, role }) => {
 
   // Check role authorization
   if (role && userRole !== role) {
+    // Clear localStorage to prevent data contamination between roles
+    localStorage.removeItem('restaurants');
+    localStorage.removeItem('menuItems_admin');
+    localStorage.removeItem('tables_admin');
+    localStorage.removeItem('orders');
+    localStorage.removeItem('bookings');
+    localStorage.removeItem('cart');
+    
     // Redirect to appropriate dashboard based on user's actual role
     if (userRole === 'admin') return <Navigate to="/admin" replace />;
     if (userRole === 'superadmin') return <Navigate to="/super-admin" replace />;

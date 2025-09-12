@@ -114,6 +114,24 @@ function App() {
     <AuthProvider>
       <DataProvider>
         <NotificationProvider>
+          {/* Clear any cross-contaminated data on app start */}
+          {React.useEffect(() => {
+            // Clean up any potentially contaminated localStorage data
+            const cleanupData = () => {
+              const currentRole = localStorage.getItem('role');
+              if (!currentRole) {
+                // No role set, clear all data
+                localStorage.removeItem('restaurants');
+                localStorage.removeItem('menuItems_admin');
+                localStorage.removeItem('tables_admin');
+                localStorage.removeItem('dashboardData_admin');
+                localStorage.removeItem('orders');
+                localStorage.removeItem('bookings');
+                localStorage.removeItem('cart');
+              }
+            };
+            cleanupData();
+          }, [])}
           <AppContent />
         </NotificationProvider>
       </DataProvider>

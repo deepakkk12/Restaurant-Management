@@ -75,12 +75,26 @@ const AdminMenu = () => {
       if (response.success) {
         setMenuItems(response.data);
         console.log('✅ Menu items loaded:', response.data.length);
+        // Store menu items in localStorage for persistence
+        localStorage.setItem(`menuItems_${response.data[0]?.restaurant_id || 'admin'}`, JSON.stringify(response.data));
       }
     } catch (error) {
       console.error('Failed to load menu items:', error);
-      addNotification('Failed to load menu items', 'error');
-      // Set empty array for demo
-      setMenuItems([]);
+      // Try to load from localStorage as fallback
+      const storedMenuItems = localStorage.getItem(`menuItems_admin`);
+      if (storedMenuItems) {
+        try {
+          const parsedItems = JSON.parse(storedMenuItems);
+          setMenuItems(parsedItems);
+          console.log('📦 Menu items restored from localStorage');
+        } catch (parseError) {
+          console.error('Error parsing stored menu items:', parseError);
+          setMenuItems([]);
+        }
+      } else {
+        addNotification('Failed to load menu items', 'error');
+        setMenuItems([]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -93,13 +107,28 @@ const AdminMenu = () => {
       if (response.success) {
         setTables(response.data);
         console.log('✅ Tables loaded:', response.data.length);
+        // Store tables in localStorage for persistence
+        localStorage.setItem(`tables_admin`, JSON.stringify(response.data));
         // Refresh restaurants data in global context to update customer view
         loadRestaurants();
       }
     } catch (error) {
       console.error('Failed to load tables:', error);
-      addNotification('Failed to load tables', 'error');
-      setTables([]);
+      // Try to load from localStorage as fallback
+      const storedTables = localStorage.getItem(`tables_admin`);
+      if (storedTables) {
+        try {
+          const parsedTables = JSON.parse(storedTables);
+          setTables(parsedTables);
+          console.log('📦 Tables restored from localStorage');
+        } catch (parseError) {
+          console.error('Error parsing stored tables:', parseError);
+          setTables([]);
+        }
+      } else {
+        addNotification('Failed to load tables', 'error');
+        setTables([]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -136,6 +165,9 @@ const AdminMenu = () => {
         // Reload both tables and restaurants data
         await loadTables();
         await loadRestaurants();
+        // Update localStorage immediately
+        const updatedTables = [...tables, response.data];
+        localStorage.setItem(`tables_admin`, JSON.stringify(updatedTables));
       }
     } catch (error) {
       addNotification(error.message || 'Failed to add table', 'error');
@@ -192,6 +224,9 @@ const AdminMenu = () => {
         addNotification('Table deleted successfully', 'success');
         await loadTables();
         await loadRestaurants();
+        // Update localStorage immediately
+        const updatedTables = tables.filter(table => table.id !== tableId);
+        localStorage.setItem(`tables_admin`, JSON.stringify(updatedTables));
       }
     } catch (error) {
       addNotification(error.message || 'Failed to delete table', 'error');
@@ -261,6 +296,9 @@ const AdminMenu = () => {
           chef_special: false
         });
         await loadMenuItems();
+        // Update localStorage immediately
+        const updatedItems = [...menuItems, { ...newItem, id: Date.now(), price: parseFloat(newItem.price) }];
+        localStorage.setItem(`menuItems_admin`, JSON.stringify(updatedItems));
       }
     } catch (error) {
       addNotification(error.message || 'Failed to add menu item', 'error');
@@ -278,6 +316,11 @@ const AdminMenu = () => {
         addNotification('Menu item updated successfully', 'success');
         setEditingItem(null);
         await loadMenuItems();
+        // Update localStorage immediately
+        const updatedItems = menuItems.map(item => 
+          item.id === itemId ? { ...item, ...updates } : item
+        );
+        localStorage.setItem(`menuItems_admin`, JSON.stringify(updatedItems));
       }
     } catch (error) {
       addNotification(error.message || 'Failed to update menu item', 'error');
@@ -295,6 +338,9 @@ const AdminMenu = () => {
       if (response.success) {
         addNotification('Menu item deleted successfully', 'success');
         await loadMenuItems();
+        // Update localStorage immediately
+        const updatedItems = menuItems.filter(item => item.id !== itemId);
+        localStorage.setItem(`menuItems_admin`, JSON.stringify(updatedItems));
       }
     } catch (error) {
       addNotification(error.message || 'Failed to delete menu item', 'error');

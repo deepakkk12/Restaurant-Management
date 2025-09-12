@@ -34,11 +34,25 @@ function App() {
       if (result.success) {
         setTables(result.data);
         console.log('✅ Tables loaded for booking view:', result.data.length);
+        // Store tables data for customers only
+        localStorage.setItem(`customerTables_${id}`, JSON.stringify(result.data));
       }
     } catch (error) {
       console.error('Failed to load tables:', error);
-      // Set fallback data if API fails
-      setTables([]);
+      // Try to load from localStorage as fallback
+      const storedTables = localStorage.getItem(`customerTables_${id}`);
+      if (storedTables) {
+        try {
+          const parsedTables = JSON.parse(storedTables);
+          setTables(parsedTables);
+          console.log('📦 Tables restored from localStorage for booking');
+        } catch (parseError) {
+          console.error('Error parsing stored tables:', parseError);
+          setTables([]);
+        }
+      } else {
+        setTables([]);
+      }
     } finally {
       setIsLoadingPhotos(false);
     }

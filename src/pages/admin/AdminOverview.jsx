@@ -44,33 +44,65 @@ const AdminOverview = () => {
       const response = await apiCall('/admin/dashboard');
       if (response.success) {
         setDashboardData(response.data);
+        // Store dashboard data for persistence
+        localStorage.setItem(`dashboardData_admin`, JSON.stringify(response.data));
       }
 
       // Load recent tables
       const tablesResponse = await apiCall('/admin/tables');
       if (tablesResponse.success) {
         setRecentTables(tablesResponse.data.slice(0, 5));
+        // Store tables data for persistence
+        localStorage.setItem(`tables_admin`, JSON.stringify(tablesResponse.data));
       }
 
       // Refresh restaurants data in global context
       loadRestaurants();
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
-      // Set default data for demo
-      setDashboardData({
-        stats: {
-          totalOrders: 0,
-          pendingOrders: 0,
-          totalBookings: 0,
-          todaysBookings: 0,
-          totalRevenue: 0,
-          totalMenuItems: 0,
-          availableTables: 0
-        },
-        recentOrders: [],
-        recentBookings: []
-      });
-      setRecentTables([]);
+      // Try to load from localStorage as fallback
+      const storedDashboard = localStorage.getItem(`dashboardData_admin`);
+      const storedTables = localStorage.getItem(`tables_admin`);
+      
+      if (storedDashboard) {
+        try {
+          setDashboardData(JSON.parse(storedDashboard));
+          console.log('📦 Dashboard data restored from localStorage');
+        } catch (parseError) {
+          console.error('Error parsing stored dashboard data:', parseError);
+        }
+      }
+      
+      if (storedTables) {
+        try {
+          const parsedTables = JSON.parse(storedTables);
+          setRecentTables(parsedTables.slice(0, 5));
+          console.log('📦 Tables data restored from localStorage');
+        } catch (parseError) {
+          console.error('Error parsing stored tables data:', parseError);
+        }
+      }
+      
+      // Set default data only if no stored data exists
+      if (!storedDashboard) {
+        setDashboardData({
+          stats: {
+            totalOrders: 0,
+            pendingOrders: 0,
+            totalBookings: 0,
+            todaysBookings: 0,
+            totalRevenue: 0,
+            totalMenuItems: 0,
+            availableTables: 0
+          },
+          recentOrders: [],
+          recentBookings: []
+        });
+      }
+      
+      if (!storedTables) {
+        setRecentTables([]);
+      }
     } finally {
       setIsLoading(false);
     }

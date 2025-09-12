@@ -38,12 +38,20 @@ export const AuthProvider = ({ children }) => {
             const currentTime = Date.now() / 1000;
             
             if (tokenPayload.exp && tokenPayload.exp > currentTime) {
-              // Token is valid
+              // Token is valid - verify role matches stored role
+              if (tokenPayload.role === storedRole) {
               setUser(parsedUser);
               setRole(storedRole);
               setToken(storedToken);
               setIsAuthenticated(true);
               console.log('✅ Authentication restored from localStorage');
+              } else {
+                // Role mismatch, clear storage
+                console.log('⚠️ Role mismatch in token, clearing stored auth');
+                localStorage.removeItem('user');
+                localStorage.removeItem('role');
+                localStorage.removeItem('token');
+              }
             } else {
               // Token expired, clear storage
               console.log('⚠️ Token expired, clearing stored auth');
@@ -75,6 +83,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData, userRole, authToken) => {
     console.log('🔐 Logging in user:', userData.name, 'Role:', userRole);
+    
+    // Clear any existing auth data first to prevent conflicts
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
+    localStorage.removeItem('token');
+    
     setUser(userData);
     setRole(userRole);
     setToken(authToken);
@@ -93,6 +107,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     localStorage.removeItem('role');
     localStorage.removeItem('token');
+    
+    // Clear any cached data to prevent cross-contamination
+    localStorage.removeItem('restaurants');
+    localStorage.removeItem('menuItems');
+    localStorage.removeItem('tables');
+    localStorage.removeItem('orders');
+    localStorage.removeItem('bookings');
+    localStorage.removeItem('cart');
   };
 
   // API helper function

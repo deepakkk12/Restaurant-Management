@@ -175,15 +175,15 @@ def insert_sample_data(cursor):
     
     # Sample restaurants with admin credentials
     restaurants_data = [
-        (1, 'The Golden Spoon', 'Fine Dining', 4.8, 'https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg', 
-         '123 Gourmet Street, Downtown', '+1 (555) 123-4567', 'Exquisite fine dining experience with contemporary cuisine', 
-         'GS001', hash_password('admin123')),
-        (2, 'Sakura Sushi', 'Japanese', 4.6, 'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg', 
-         '456 Zen Garden Ave, Midtown', '+1 (555) 234-5678', 'Authentic Japanese cuisine with fresh sushi and sashimi', 
-         'SS002', hash_password('admin123')),
-        (3, 'Mama\'s Italian', 'Italian', 4.7, 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg', 
-         '789 Pasta Lane, Little Italy', '+1 (555) 345-6789', 'Traditional Italian flavors in a cozy family atmosphere', 
-         'MI003', hash_password('admin123'))
+        (1, 'Taj Mahal Palace', 'North Indian', 4.9, 'https://images.pexels.com/photos/5409020/pexels-photo-5409020.jpeg',
+         '123 Delhi Street, Indian Quarter', '+91 (555) 123-4567', 'Authentic North Indian cuisine with royal recipes from Mughal era',
+         'TM001', hash_password('admin123')),
+        (2, 'Spice Garden', 'South Indian', 4.8, 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg',
+         '456 Chennai Avenue, Spice District', '+91 (555) 234-5678', 'Traditional South Indian flavors featuring crispy dosas and fluffy idlis',
+         'SG002', hash_password('admin123')),
+        (3, 'Mumbai Masala', 'Street Food & Chaat', 4.7, 'https://images.pexels.com/photos/1893556/pexels-photo-1893556.jpeg',
+         '789 Mumbai Road, Street Food Plaza', '+91 (555) 345-6789', 'Experience the vibrant street food culture of Mumbai',
+         'MM003', hash_password('admin123'))
     ]
     
     cursor.executemany('''
@@ -215,33 +215,33 @@ def insert_sample_data(cursor):
     
     # Sample menu items
     menu_items_data = [
-        # The Golden Spoon
-        (1, 'Wagyu Beef Tenderloin', 'Mains', 89.99, 'Premium wagyu beef with truffle sauce and seasonal vegetables', 
-         'https://images.pexels.com/photos/361184/asparagus-steak-veal-steak-veal-361184.jpeg', 'gluten-free', 1, 1),
-        (1, 'Pan-Seared Salmon', 'Mains', 32.99, 'Fresh Atlantic salmon with lemon herb butter and quinoa', 
-         'https://images.pexels.com/photos/262959/pexels-photo-262959.jpeg', 'gluten-free,healthy', 0, 1),
-        (1, 'Truffle Arancini', 'Starters', 18.99, 'Crispy risotto balls with black truffle and parmesan', 
-         'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg', 'vegetarian', 0, 1),
-        (1, 'Lobster Thermidor', 'Mains', 65.99, 'Fresh lobster with creamy cognac sauce and herbs', 
-         'https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg', 'gluten-free', 0, 1),
-        (1, 'Chocolate Soufflé', 'Desserts', 16.99, 'Warm chocolate soufflé with vanilla ice cream', 
-         'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg', 'vegetarian', 0, 1),
-        
-        # Sakura Sushi
-        (2, 'Sashimi Platter', 'Sashimi', 45.99, 'Fresh selection of tuna, salmon, and yellowtail', 
-         'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg', 'gluten-free,healthy', 0, 1),
-        (2, 'Dragon Roll', 'Sushi', 18.99, 'Eel and cucumber topped with avocado and eel sauce', 
-         'https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg', '', 0, 1),
-        (2, 'Miso Soup', 'Starters', 6.99, 'Traditional soybean paste soup with tofu and seaweed', 
-         'https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg', 'vegetarian,healthy', 0, 1),
-        
-        # Mama's Italian
-        (3, 'Margherita Pizza', 'Pizza', 22.99, 'Fresh mozzarella, tomato sauce, and basil', 
-         'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg', 'vegetarian', 0, 1),
-        (3, 'Fettuccine Alfredo', 'Pasta', 19.99, 'Creamy parmesan sauce with fresh fettuccine', 
-         'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg', 'vegetarian', 0, 1),
-        (3, 'Tiramisu', 'Desserts', 12.99, 'Classic Italian dessert with coffee and mascarpone', 
-         'https://images.pexels.com/photos/6880219/pexels-photo-6880219.jpeg', 'vegetarian', 0, 1)
+        # Taj Mahal Palace
+        (1, 'Tandoori Chicken', 'Tandoori', 599, 'Succulent chicken marinated in yogurt and spices',
+         'https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg', 'gluten-free', 1, 1),
+        (1, 'Butter Chicken', 'Mains', 499, 'Tender chicken in rich creamy tomato gravy',
+         'https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg', 'gluten-free', 1, 1),
+        (1, 'Paneer Tikka', 'Starters', 349, 'Grilled cottage cheese with aromatic spices',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,gluten-free', 0, 1),
+        (1, 'Biryani', 'Rice', 449, 'Fragrant basmati rice with spiced chicken',
+         'https://images.pexels.com/photos/16743486/pexels-photo-16743486.jpeg', 'gluten-free', 1, 1),
+        (1, 'Gulab Jamun', 'Desserts', 129, 'Soft milk dumplings in rose syrup',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1),
+
+        # Spice Garden
+        (2, 'Masala Dosa', 'Dosas', 199, 'Crispy rice crepe with spiced potato filling',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 1, 1),
+        (2, 'Idli Sambar', 'Breakfast', 149, 'Steamed rice cakes with lentil soup',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 0, 1),
+        (2, 'Uttapam', 'Dosas', 179, 'Thick rice pancake with vegetables',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1),
+
+        # Mumbai Masala
+        (3, 'Pav Bhaji', 'Street Food', 169, 'Spicy mashed vegetables with buttered bread',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 1, 1),
+        (3, 'Vada Pav', 'Street Food', 79, 'Mumbai\'s iconic potato fritter sandwich',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1),
+        (3, 'Pani Puri', 'Chaat', 99, 'Crispy puris with spicy tamarind water',
+         'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1)
     ]
     
     cursor.executemany('''

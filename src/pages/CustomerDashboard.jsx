@@ -33,7 +33,7 @@ const CustomerDashboard = () => {
     }
   }, [restaurants.length]);
 
-  const cuisines = ['all', 'Fine Dining', 'Japanese', 'Italian', 'Indian', 'Mexican'];
+  const cuisines = ['all', 'North Indian', 'South Indian', 'Street Food & Chaat'];
 
   const filteredRestaurants = restaurants.filter(restaurant => {
     const matchesSearch = restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -88,10 +88,10 @@ const CustomerDashboard = () => {
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Discover Amazing Restaurants
+            Discover Authentic Indian Cuisine
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto">
-            Book tables, explore menus, and enjoy personalized dining experiences powered by AI
+            Experience the rich flavors of India - from royal Mughlai dishes to crispy dosas and spicy street food
           </p>
           
           {/* Search Bar */}
@@ -100,7 +100,7 @@ const CustomerDashboard = () => {
               <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5" />
               <input
                 type="text"
-                placeholder="Search restaurants, cuisines, or dishes..."
+                placeholder="Search Indian restaurants, biryanis, curries, dosas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 md:pl-12 md:pr-4 md:py-4 rounded-lg text-gray-900 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 text-sm md:text-base"

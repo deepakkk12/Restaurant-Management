@@ -9,7 +9,7 @@ const AIChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState([
-    { id: 1, text: `Hello${user?.name ? ` ${user.name}` : ''}! I'm your AI restaurant assistant powered by advanced AI. I can help you with bookings, menu recommendations, dietary preferences, and answer questions about our ${restaurants.length} partner restaurants. How can I assist you today?`, sender: 'ai', timestamp: new Date() }
+    { id: 1, text: `Namaste${user?.name ? ` ${user.name}` : ''}! I'm your AI restaurant assistant powered by Google Gemini. I can help you discover authentic Indian cuisine, suggest the best dishes from our ${restaurants.length} Indian restaurants, help with bookings, and provide personalized recommendations based on your taste preferences. What delicious Indian food are you craving today?`, sender: 'ai', timestamp: new Date() }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
@@ -69,22 +69,35 @@ const AIChat = () => {
       `${r.name} (${r.cuisine}) - Rating: ${r.rating}, Address: ${r.address}, Available tables: ${r.available_tables || 0}`
     ).join('\n');
     
-    const systemPrompt = `You are an AI restaurant assistant for RestaurantAI platform. You help customers with:
-    - Restaurant recommendations and bookings
-    - Menu suggestions and dietary accommodations
-    - Table reservations and availability
-    - Special occasion planning
-    - Cuisine preferences and food allergies
-    
-    Current available restaurants:
+    const systemPrompt = `You are an AI restaurant assistant for RestaurantAI platform specializing in INDIAN CUISINE. You are an expert on Indian food, spices, flavors, and regional cuisines.
+
+    Your responsibilities:
+    - Recommend authentic Indian dishes based on user preferences
+    - Suggest restaurants based on cuisine type (North Indian, South Indian, Street Food)
+    - Explain Indian dishes, ingredients, and spice levels
+    - Help with dietary accommodations (vegetarian, vegan, gluten-free options)
+    - Assist with table bookings and special occasions
+    - Provide personalized menu suggestions
+    - Share information about Indian culinary traditions
+
+    Current available Indian restaurants:
     ${restaurantContext}
-    
+
     User context: ${user?.name ? `Customer name is ${user.name}` : 'Guest user'}
-    
-    Provide helpful, personalized responses about dining experiences. Be friendly, knowledgeable, and focus on helping customers find the perfect dining experience.`;
+
+    IMPORTANT INSTRUCTIONS:
+    - Always be enthusiastic about Indian cuisine and use some Indian greetings naturally (Namaste, etc.)
+    - When asked about specific restaurants, provide detailed and accurate recommendations from the available restaurants
+    - For dish recommendations, mention specific items from restaurant menus with prices in rupees
+    - Explain spice levels and flavors when relevant
+    - If asked about "best food" from a restaurant, recommend their signature dishes with descriptions
+    - Be conversational, warm, and knowledgeable like a friendly Indian food expert
+    - Keep responses concise but informative (2-4 sentences)
+
+    Respond naturally as if you're a real person who loves Indian food and wants to help customers have an amazing dining experience!`;
 
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBj2JX-nIFFUkAEoCumuoR13f-I6adgcXY`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBj2JX-nIFFUkAEoCumuoR13f-I6adgcXY`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,10 +109,10 @@ const AIChat = () => {
             }]
           }],
           generationConfig: {
-            temperature: 0.7,
+            temperature: 0.9,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 200,
+            maxOutputTokens: 250,
           }
         })
       });
@@ -124,12 +137,13 @@ const AIChat = () => {
     
     // Booking related
     if (message.includes('book') || message.includes('reservation') || message.includes('table')) {
-      return `I'd be happy to help you book a table! We have ${restaurants.length} amazing partner restaurants available. Which restaurant interests you, and what date and time would you prefer? I can also suggest the best tables based on your party size.`;
+      return `Namaste! I'd be delighted to help you book a table at one of our authentic Indian restaurants! We have ${restaurants.length} wonderful options - from North Indian classics to South Indian specialties and Mumbai street food. Which cuisine are you in the mood for, and what date and time would you prefer?`;
     }
     
     // Menu and food related
-    if (message.includes('menu') || message.includes('food') || message.includes('dish') || message.includes('eat')) {
-      return "Great choice! I can help you explore our restaurant menus. Are you looking for a specific cuisine type? I can also provide personalized recommendations based on dietary preferences, allergies, or your taste profile. What type of dining experience are you in the mood for?";
+    if (message.includes('menu') || message.includes('food') || message.includes('dish') || message.includes('eat') || message.includes('recommend') || message.includes('suggest') || message.includes('best')) {
+      const restaurantNames = restaurants.map(r => `${r.name} (${r.cuisine})`).join(', ');
+      return `I'd love to recommend some amazing Indian dishes! We have ${restaurantNames}. Are you craving spicy curries, tandoori delights, crispy dosas, or Mumbai street food? Tell me your preference and I'll suggest the best dishes with prices!`;
     }
     
     // Dietary restrictions
@@ -137,15 +151,14 @@ const AIChat = () => {
       return "I understand dietary requirements are important! I can filter all our restaurant options and menu items based on your specific needs. We have excellent vegetarian, vegan, gluten-free, and allergy-friendly options. What dietary preferences should I keep in mind for your recommendations?";
     }
     
-    // Restaurant recommendations
-    if (message.includes('recommend') || message.includes('suggest') || message.includes('best')) {
-      const topRestaurants = restaurants.slice(0, 3).map(r => `${r.name} (${r.cuisine}, ${r.rating}★)`).join(', ');
-      return `I'd love to recommend the perfect restaurant for you! Our top-rated options include: ${topRestaurants}. What type of cuisine do you prefer? What's your budget range? Are you looking for a romantic dinner, family meal, or business lunch?`;
+    // Spice level queries
+    if (message.includes('spicy') || message.includes('spice') || message.includes('hot') || message.includes('mild')) {
+      return "Great question about spice levels! Indian cuisine offers everything from mild and creamy dishes like Butter Chicken and Korma to fiery options like Vindaloo. Most restaurants can adjust spice levels to your preference. Would you like recommendations for mild, medium, or spicy dishes?";
     }
     
     // Pricing and budget
-    if (message.includes('price') || message.includes('cost') || message.includes('budget') || message.includes('expensive')) {
-      return "I can help you find restaurants that fit your budget perfectly! Our partner restaurants range from casual dining to fine dining experiences. What's your preferred price range per person? I can show you great options with transparent pricing and no hidden fees.";
+    if (message.includes('price') || message.includes('cost') || message.includes('budget') || message.includes('expensive') || message.includes('cheap') || message.includes('affordable')) {
+      return "I can help you find delicious Indian food for any budget! Street food options start from ₹79, while premium dishes go up to ₹599. Mumbai Masala offers affordable street food (₹79-₹169), while Taj Mahal Palace has royal dining experiences (₹299-₹599). What's your budget per person?";
     }
     
     // Location and directions
@@ -159,17 +172,17 @@ const AIChat = () => {
     }
     
     // Special occasions
-    if (message.includes('birthday') || message.includes('anniversary') || message.includes('celebration') || message.includes('special')) {
-      return "How wonderful! I'd love to help make your special occasion memorable. I can recommend restaurants with romantic ambiance, private dining rooms, or special celebration packages. Many of our partners offer complimentary desserts for birthdays and anniversaries. What's the occasion, and how many guests will be joining you?";
+    if (message.includes('birthday') || message.includes('anniversary') || message.includes('celebration') || message.includes('special') || message.includes('party')) {
+      return "How wonderful! Let's make your celebration special with authentic Indian cuisine! Taj Mahal Palace is perfect for elegant occasions with its royal ambiance, while Mumbai Masala is great for fun, casual parties. We can arrange special thalis, biryani platters, and traditional Indian sweets. What's the occasion and how many guests?";
     }
     
     // Default responses for general queries
     const defaultResponses = [
-      `I'm here to make your dining experience exceptional! I can help with restaurant recommendations, table bookings, menu exploration, dietary accommodations, and special requests. We have ${restaurants.length} amazing restaurants to choose from. What would you like to know more about?`,
-      `As your AI dining assistant, I have access to real-time information about all our ${restaurants.length} partner restaurants. I can help you discover new cuisines, find the perfect ambiance, and ensure your dietary needs are met. How can I assist you today?`,
-      `I'm designed to understand your dining preferences and provide personalized recommendations. Whether you're looking for a quick bite, romantic dinner, or family celebration, I can guide you to the perfect restaurant experience from our curated selection. What are you in the mood for?`,
-      `I can help you navigate our extensive network of ${restaurants.length} restaurants with intelligent recommendations based on your preferences, location, budget, and dietary needs. I also provide real-time availability and can assist with special requests. What would you like to explore?`,
-      `My goal is to connect you with the perfect dining experience! I can suggest restaurants, help with bookings, explain menu items, accommodate dietary restrictions, and even help plan special celebrations. What dining experience are you looking for today?`
+      `Namaste! I'm your AI assistant specializing in authentic Indian cuisine. I can recommend the perfect Indian restaurant, suggest delicious dishes from tandoori to dosas, help with bookings, and answer any questions about Indian food. We have ${restaurants.length} amazing Indian restaurants. What would you like to explore?`,
+      `Hello! As your Indian food expert, I can help you discover the rich flavors of North Indian curries, South Indian specialties, and Mumbai street food. Whether you want mild or spicy, vegetarian or non-veg, I'll guide you to the perfect meal. What type of Indian cuisine interests you?`,
+      `Hi there! I'm here to help you experience the best of Indian cuisine from our ${restaurants.length} partner restaurants. From royal biryanis to crispy dosas and spicy chaats, I can recommend dishes that match your taste preferences. What are you craving today?`,
+      `Namaste! I'm powered by Google Gemini and I'm passionate about Indian food! I can suggest restaurants based on cuisine type, recommend specific dishes with prices, explain spice levels, and help with bookings. What would you like to know about our Indian restaurants?`,
+      `Welcome! Let me help you discover authentic Indian flavors. Whether you're new to Indian cuisine or a regular fan, I can suggest the perfect dishes from our ${restaurants.length} restaurants, explain ingredients, and ensure you have an amazing dining experience. How can I help you today?`
     ];
     
     return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];

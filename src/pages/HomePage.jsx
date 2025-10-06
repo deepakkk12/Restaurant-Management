@@ -40,11 +40,11 @@ const HomePage = () => {
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             Experience
-            <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent"> Dining</span>
-            <br />Redefined
+            <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent"> Authentic</span>
+            <br />Indian Cuisine
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Discover exceptional restaurants, book tables instantly, and enjoy AI-powered personalized dining experiences
+            Discover the rich flavors of India - from royal Mughlai curries to crispy South Indian dosas and vibrant Mumbai street food
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -60,7 +60,7 @@ const HomePage = () => {
               className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-all duration-300 backdrop-blur-sm border border-white/20 flex items-center justify-center space-x-2"
             >
               <Menu className="w-5 h-5" />
-              <span className="font-semibold">Explore Our Menu</span>
+              <span className="font-semibold">Explore Indian Flavors</span>
             </Link>
           </div>
         </div>
@@ -82,7 +82,7 @@ const HomePage = () => {
           <div className="hidden md:block absolute bottom-40 left-20 bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-float" style={{ animationDelay: '2s' }}>
             <div className="flex items-center space-x-2 text-white">
               <ChefHat className="w-5 h-5 text-orange-400" />
-              <span className="font-semibold">50+ Restaurants</span>
+              <span className="font-semibold">Authentic Indian Restaurants</span>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ const HomePage = () => {
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">Why Choose RestaurantAI?</h2>
             <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto">
-              Experience the future of dining with our AI-powered platform that makes every meal memorable
+              Experience authentic Indian cuisine with our AI-powered platform - from North Indian tandoori to South Indian delicacies
             </p>
           </div>
 
@@ -107,13 +107,13 @@ const HomePage = () => {
               },
               {
                 icon: ChefHat,
-                title: "AI Recommendations",
-                description: "Get personalized menu suggestions based on your taste preferences and dietary needs"
+                title: "Indian Food Expert AI",
+                description: "Get personalized Indian dish recommendations from biryani to dosas, tailored to your spice preferences"
               },
               {
                 icon: Star,
-                title: "Premium Experience",
-                description: "Enjoy exceptional service at carefully curated restaurants with verified reviews"
+                title: "Authentic Indian Flavors",
+                description: "Enjoy traditional recipes and authentic spices from different regions of India"
               }
             ].map((feature, index) => (
               <div key={index} className="text-center p-8 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
@@ -131,9 +131,9 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="py-20">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Dine Better?</h2>
+          <h2 className="text-4xl font-bold text-white mb-6">Ready to Experience India?</h2>
           <p className="text-xl text-gray-300 mb-8">
-            Join thousands of food lovers who trust RestaurantAI for their dining experiences
+            Join thousands of food lovers discovering authentic Indian cuisine through RestaurantAI
           </p>
           <Link
             to="/login"

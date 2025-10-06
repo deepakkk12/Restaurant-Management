@@ -289,9 +289,9 @@ async function setupDatabase() {
         // Insert sample restaurants with hashed passwords
         const adminPassword = await hashPassword('admin123');
         const restaurants = [
-            [1, 'The Golden Spoon', 'Fine Dining', 4.8, 'https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg', '123 Gourmet Street, Downtown', '+1 (555) 123-4567', 'Exquisite fine dining experience with contemporary cuisine', 'GS001', adminPassword],
-            [2, 'Sakura Sushi', 'Japanese', 4.6, 'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg', '456 Zen Garden Ave, Midtown', '+1 (555) 234-5678', 'Authentic Japanese cuisine with fresh sushi and sashimi', 'SS002', adminPassword],
-            [3, 'Mama\'s Italian', 'Italian', 4.7, 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg', '789 Pasta Lane, Little Italy', '+1 (555) 345-6789', 'Traditional Italian flavors in a cozy family atmosphere', 'MI003', adminPassword]
+            [1, 'Taj Mahal Palace', 'North Indian', 4.9, 'https://images.pexels.com/photos/5409020/pexels-photo-5409020.jpeg', '123 Delhi Street, Indian Quarter', '+91 (555) 123-4567', 'Authentic North Indian cuisine with royal recipes from Mughal era. Experience the rich flavors of tandoori delicacies, aromatic biryanis, and creamy curries', 'TM001', adminPassword],
+            [2, 'Spice Garden', 'South Indian', 4.8, 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', '456 Chennai Avenue, Spice District', '+91 (555) 234-5678', 'Traditional South Indian flavors featuring crispy dosas, fluffy idlis, and aromatic sambar. Taste the authentic spices of Kerala and Tamil Nadu', 'SG002', adminPassword],
+            [3, 'Mumbai Masala', 'Street Food & Chaat', 4.7, 'https://images.pexels.com/photos/1893556/pexels-photo-1893556.jpeg', '789 Mumbai Road, Street Food Plaza', '+91 (555) 345-6789', 'Experience the vibrant street food culture of Mumbai with delicious chaats, pav bhaji, vada pav, and authentic Indian snacks', 'MM003', adminPassword]
         ];
 
         const restaurantStmt = await prepareStatement(`
@@ -313,9 +313,9 @@ async function setupDatabase() {
         // Insert admin users
         const superAdminPassword = await hashPassword('superadmin2025');
         const adminUsers = [
-            ['Golden Spoon Admin', 'admin@goldenspoon.com', null, adminPassword, 'admin', 1, 'GS001'],
-            ['Sakura Admin', 'admin@sakurasushi.com', null, adminPassword, 'admin', 2, 'SS002'],
-            ['Italian Admin', 'admin@mamasitalian.com', null, adminPassword, 'admin', 3, 'MI003'],
+            ['Taj Mahal Admin', 'admin@tajmahalpalace.com', null, adminPassword, 'admin', 1, 'TM001'],
+            ['Spice Garden Admin', 'admin@spicegarden.com', null, adminPassword, 'admin', 2, 'SG002'],
+            ['Mumbai Masala Admin', 'admin@mumbaimasala.com', null, adminPassword, 'admin', 3, 'MM003'],
             ['Platform Owner', 'owner@restaurantai.com', null, superAdminPassword, 'superadmin', null, null]
         ];
 
@@ -337,26 +337,34 @@ async function setupDatabase() {
 
         // Insert sample menu items WITH cuisine column
         const menuItems = [
-            // The Golden Spoon - Fine Dining
-            [1, 'Wagyu Beef Tenderloin', 'Mains', 'Fine Dining', 89.99, 'Premium wagyu beef with truffle sauce and seasonal vegetables', 'https://images.pexels.com/photos/361184/asparagus-steak-veal-steak-veal-361184.jpeg', 'gluten-free', 1, 1],
-            [1, 'Pan-Seared Salmon', 'Mains', 'Fine Dining', 32.99, 'Fresh Atlantic salmon with lemon herb butter and quinoa', 'https://images.pexels.com/photos/262959/pexels-photo-262959.jpeg', 'gluten-free,healthy', 0, 1],
-            [1, 'Truffle Arancini', 'Starters', 'Fine Dining', 18.99, 'Crispy risotto balls with black truffle and parmesan', 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg', 'vegetarian', 0, 1],
-            [1, 'Lobster Thermidor', 'Mains', 'Fine Dining', 65.99, 'Fresh lobster with creamy cognac sauce and herbs', 'https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg', 'gluten-free', 0, 1],
-            [1, 'Chocolate Soufflé', 'Desserts', 'Fine Dining', 16.99, 'Warm chocolate soufflé with vanilla ice cream', 'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg', 'vegetarian', 0, 1],
-            
-            // Sakura Sushi - Japanese
-            [2, 'Sashimi Platter', 'Sashimi', 'Japanese', 45.99, 'Fresh selection of tuna, salmon, and yellowtail', 'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg', 'gluten-free,healthy', 0, 1],
-            [2, 'Dragon Roll', 'Sushi', 'Japanese', 18.99, 'Eel and cucumber topped with avocado and eel sauce', 'https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg', '', 0, 1],
-            [2, 'Miso Soup', 'Starters', 'Japanese', 6.99, 'Traditional soybean paste soup with tofu and seaweed', 'https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg', 'vegetarian,healthy', 0, 1],
-            [2, 'Chirashi Bowl', 'Sashimi', 'Japanese', 28.99, 'Assorted sashimi over seasoned sushi rice', 'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg', 'gluten-free,healthy', 1, 1],
-            [2, 'Tempura Udon', 'Noodles', 'Japanese', 16.99, 'Thick udon noodles in hot broth with tempura', 'https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg', '', 0, 1],
-            
-            // Mama's Italian - Italian
-            [3, 'Margherita Pizza', 'Pizza', 'Italian', 22.99, 'Fresh mozzarella, tomato sauce, and basil', 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg', 'vegetarian', 0, 1],
-            [3, 'Fettuccine Alfredo', 'Pasta', 'Italian', 19.99, 'Creamy parmesan sauce with fresh fettuccine', 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg', 'vegetarian', 0, 1],
-            [3, 'Tiramisu', 'Desserts', 'Italian', 12.99, 'Classic Italian dessert with coffee and mascarpone', 'https://images.pexels.com/photos/6880219/pexels-photo-6880219.jpeg', 'vegetarian', 0, 1],
-            [3, 'Osso Buco', 'Mains', 'Italian', 34.99, 'Braised veal shanks with risotto milanese', 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg', '', 1, 1],
-            [3, 'Bruschetta', 'Starters', 'Italian', 12.99, 'Grilled bread with tomatoes, garlic, and basil', 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg', 'vegetarian', 0, 1]
+            // Taj Mahal Palace - North Indian
+            [1, 'Tandoori Chicken', 'Tandoori Specials', 'North Indian', 599, 'Succulent chicken marinated in yogurt and spices, cooked to perfection in clay oven', 'https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg', 'gluten-free', 1, 1],
+            [1, 'Butter Chicken', 'Mains', 'North Indian', 499, 'Tender chicken pieces in rich creamy tomato gravy with aromatic spices', 'https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg', 'gluten-free', 1, 1],
+            [1, 'Paneer Tikka', 'Starters', 'North Indian', 349, 'Cottage cheese cubes marinated in spices and grilled in tandoor', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,gluten-free', 0, 1],
+            [1, 'Dal Makhani', 'Mains', 'North Indian', 299, 'Slow-cooked black lentils with cream and butter, a Punjabi specialty', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 0, 1],
+            [1, 'Biryani (Chicken)', 'Rice & Biryani', 'North Indian', 449, 'Fragrant basmati rice layered with spiced chicken and aromatic herbs', 'https://images.pexels.com/photos/16743486/pexels-photo-16743486.jpeg', 'gluten-free', 1, 1],
+            [1, 'Naan Basket', 'Breads', 'North Indian', 149, 'Assorted Indian breads - plain naan, butter naan, and garlic naan', 'https://images.pexels.com/photos/8753876/pexels-photo-8753876.jpeg', 'vegetarian', 0, 1],
+            [1, 'Gulab Jamun', 'Desserts', 'North Indian', 129, 'Soft milk dumplings soaked in rose-flavored sugar syrup', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+            [1, 'Rogan Josh', 'Mains', 'North Indian', 549, 'Kashmiri lamb curry with aromatic spices in rich gravy', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'gluten-free', 0, 1],
+
+            // Spice Garden - South Indian
+            [2, 'Masala Dosa', 'Dosas', 'South Indian', 199, 'Crispy rice crepe filled with spiced potato masala, served with sambar and chutney', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 1, 1],
+            [2, 'Idli Sambar', 'Breakfast', 'South Indian', 149, 'Steamed rice cakes served with lentil soup and coconut chutney', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy,gluten-free', 0, 1],
+            [2, 'Medu Vada', 'Starters', 'South Indian', 129, 'Crispy lentil donuts served with sambar and chutney', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,gluten-free', 0, 1],
+            [2, 'Hyderabadi Biryani', 'Rice & Biryani', 'South Indian', 399, 'Authentic Hyderabadi style biryani with tender meat and fragrant spices', 'https://images.pexels.com/photos/16743486/pexels-photo-16743486.jpeg', 'gluten-free', 1, 1],
+            [2, 'Rasam', 'Soups', 'South Indian', 99, 'Tangy tamarind soup with tomatoes and aromatic spices', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy,gluten-free', 0, 1],
+            [2, 'Uttapam', 'Dosas', 'South Indian', 179, 'Thick rice pancake topped with onions, tomatoes, and chilies', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+            [2, 'Payasam', 'Desserts', 'South Indian', 119, 'Traditional South Indian rice pudding with cardamom and cashews', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+
+            // Mumbai Masala - Street Food
+            [3, 'Pav Bhaji', 'Street Food', 'Street Food', 169, 'Spicy mashed vegetable curry served with buttered bread rolls', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 1, 1],
+            [3, 'Vada Pav', 'Street Food', 'Street Food', 79, 'Mumbai\'s iconic potato fritter sandwich with spicy chutneys', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+            [3, 'Pani Puri', 'Chaat', 'Street Food', 99, 'Crispy hollow puris filled with spicy tamarind water and potato', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+            [3, 'Bhel Puri', 'Chaat', 'Street Food', 89, 'Puffed rice mixed with vegetables, tamarind, and spicy chutneys', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 0, 1],
+            [3, 'Dahi Puri', 'Chaat', 'Street Food', 109, 'Crispy puris topped with yogurt, chutneys, and sev', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1],
+            [3, 'Samosa Chaat', 'Chaat', 'Street Food', 129, 'Crispy samosas topped with chickpea curry, yogurt, and chutneys', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 1, 1],
+            [3, 'Misal Pav', 'Street Food', 'Street Food', 149, 'Spicy sprouts curry topped with farsan, served with pav', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian,healthy', 0, 1],
+            [3, 'Kulfi Falooda', 'Desserts', 'Street Food', 99, 'Traditional Indian ice cream with vermicelli, rose syrup, and nuts', 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg', 'vegetarian', 0, 1]
         ];
 
         const menuStmt = await prepareStatement(`
@@ -415,14 +423,18 @@ async function setupDatabase() {
 
         console.log('✅ Database setup completed successfully!');
         console.log('\n📊 Sample Data Inserted:');
-        console.log('- 3 Restaurants with admin accounts');
+        console.log('- 3 Indian Restaurants with admin accounts');
         console.log('- 1 Super admin account');
         console.log('- Restaurant tables for each location');
-        console.log('- Sample menu items with cuisine information');
+        console.log('- Authentic Indian menu items');
         console.log('\n🔐 Demo Credentials:');
-        console.log('Restaurant Admins: GS001/admin123, SS002/admin123, MI003/admin123');
+        console.log('Restaurant Admins: TM001/admin123, SG002/admin123, MM003/admin123');
         console.log('Super Admin: owner@restaurantai.com/superadmin2025');
         console.log('\n🚀 Run "npm start" to start the server');
+        console.log('\n🍛 Indian Restaurants:');
+        console.log('1. Taj Mahal Palace - North Indian Cuisine');
+        console.log('2. Spice Garden - South Indian Cuisine');
+        console.log('3. Mumbai Masala - Street Food & Chaat');
 
     } catch (error) {
         console.error('Error setting up database:', error);

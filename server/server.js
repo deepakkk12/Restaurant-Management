@@ -138,7 +138,7 @@ app.listen(PORT, () => {
     console.log(`📚 API Documentation: http://localhost:${PORT}/`);
     console.log('=====================================');
     console.log('🔐 Demo Credentials:');
-    console.log('Restaurant Admins: GS001/admin123, SS002/admin123, MI003/admin123');
+    console.log('Restaurant Admins: TM001/admin123, SG002/admin123, MM003/admin123');
     console.log('Super Admin: owner@restaurantai.com/superadmin2025 (Security Code: 777888)');
     console.log('=====================================');
 });

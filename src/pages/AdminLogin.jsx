@@ -31,43 +31,54 @@ const AdminLogin = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Use the regular login endpoint which now handles admin login
-    fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        identifier: formData.adminId,
-        password: formData.password
-      })
-    }).then(res => res.json())
-    .then(response => {
+    try {
+      // Use the regular login endpoint which now handles admin login
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          identifier: formData.adminId,
+          password: formData.password
+        })
+      });
+
+      const response = await res.json();
+
       if (response.success) {
         const user = response.data.user;
+        
+        // Verify this is an admin user
+        if (user.role !== 'admin') {
+          addNotification('Invalid admin credentials. Please use admin login.', 'error');
+          setIsLoading(false);
+          return;
+        }
+
+        // Call login from context - this will set isAuthenticated to true
         login(user, response.data.token);
         addNotification('Admin login successful!', 'success');
         
-        // Only handle admin navigation
-        if (user.role === 'admin') {
-          navigate(from.pathname || '/admin', { replace: true });
-        }
+        // The useEffect will handle navigation after isAuthenticated becomes true
       } else if (response.code === 'SUBSCRIPTION_EXPIRED') {
         addNotification('Subscription Over - Your restaurant subscription has expired. Please contact support.', 'error');
+        setIsLoading(false);
+      } else {
+        addNotification(response.message || 'Invalid admin credentials. Please check your Admin ID and password.', 'error');
+        setIsLoading(false);
       }
-    })
-    .catch(error => {
+    } catch (error) {
+      console.error('Login error:', error);
       if (error.message && (error.message.includes('fetch') || error.message.includes('Network'))) {
         addNotification('Unable to connect to server. Please check your connection and try again.', 'error');
       } else {
         addNotification('Invalid admin credentials. Please check your Admin ID and password.', 'error');
       }
-    })
-    .finally(() => {
       setIsLoading(false);
-    });
+    }
   };
 
   return (
@@ -152,7 +163,7 @@ const AdminLogin = () => {
             <div className="mt-6 p-4 bg-yellow-500/20 border border-yellow-500/30 rounded-lg">
               <p className="text-yellow-200 text-sm">
                 <strong>Demo Credentials:</strong><br />
-                Restaurant Admin: GS001, SS002, or MI003<br />
+                Restaurant Admin: TM001, SG002, or MM003<br />
                 Password: admin123
               </p>
             </div>
